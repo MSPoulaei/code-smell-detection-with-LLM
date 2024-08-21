@@ -1,0 +1,114 @@
+\chapter*{پیوست ۳ - نحوه‌ی محاسبه‌ی ماتریس انتقال}
+\label{appendix:3}
+در این بخش نحوه‌ی محاسبه‌ی درایه‌های ماتریس انتقال $\chi_{\tau, \tau^{\prime}}$ به ازای حالت ورودی $\tau$ در قالب کد شرح داده شده است. همانطور که در بخش \ref{sec:markov} گفته شد، درايه‌های ماتریس انتقال معادل «یال» های گراف زنجیره می‌باشند. بنابراین هدف ما پیدا کردن یال‌های گراف با مبدا $\tau$ به همراه وزن آنها می‌باشد. به این منظور ابتدا با کمک تابع زیر کنش‌های ممکن را برای حالت ورودی پیدا می‌کنیم:
+\begin{latin}
+	\begin{lstlisting}[language=Kotlin, title=\rl{تابع محاسبه‌ی کنش‌های ممکن به ازای حالت داده شده}]
+override fun getPossibleActions(state: UserEquipmentState): List<Action> {
+	val result = mutableListOf<Action>(Action.NoOperation)
+	if (state.isCPUActive() && state.isTUActive()) return result
+	val nonEmptyQueueIndices = state.taskQueueLengths.indices.filter { 
+		state.taskQueueLengths[it] > 0 
+	}
+	if (!state.isCPUActive())
+		for (queueIndex in nonEmptyQueueIndices) {
+			if (config.limitation[queueIndex] != StateManagerConfig.Limitation.OffloadOnly) {
+				result.add(Action.AddToCPU(queueIndex))
+			}
+		}
+	if (!state.isTUActive()) {
+		for (queueIndex in nonEmptyQueueIndices) {
+			if (config.limitation[queueIndex] != StateManagerConfig.Limitation.LocalOnly) {
+				result.add(Action.AddToTransmissionUnit(queueIndex))
+			}
+		}
+	}
+	if (!state.isTUActive() && !state.isCPUActive()) {
+		for (i in nonEmptyQueueIndices) {
+			for (j in nonEmptyQueueIndices) {
+				if (i == j && state.taskQueueLengths[i] < 2) continue
+				if (config.limitation[i] != StateManagerConfig.Limitation.OffloadOnly 
+				&& config.limitation[j] != StateManagerConfig.Limitation.LocalOnly) {
+					result.add(Action.AddToBothUnits(i,j))
+				}
+			}
+		}
+	}
+	return result.sorted()
+}
+	\end{lstlisting}
+\end{latin}
+\newpage
+در مرحله بعد می‌بایست به ازای هر جفت حالت و کنش $(\tau, a)$، مجموعه‌ی حالات ممکن در صورت حضور در حالت $\tau$ و انتخاب کنش $a$ را محاسبه کنیم. به این منظور از تابع زیر استفاده می‌کنیم:
+\begin{latin}
+	\begin{lstlisting}[language=Kotlin, title=\rl{تابع محاسبه‌ی کنش‌های ممکن به ازای حالت داده شده}]
+fun getTransitionsForAction(state: UserEquipmentState, action: Action): List<Transition> {
+	checkStateAgainstLimitations(state)
+	val stateAfterAction = getNextStateRunningAction(state, action).let {
+		if (it.isCPUActive()) getNextStateAdvancingCPU(it) else it
+	}
+	checkStateAgainstLimitations(stateAfterAction)
+	val transitions: MutableList<Transition> = mutableListOf()
+	val notFullIndicesAfterAction = (stateAfterAction.taskQueueLengths.indices).filter {
+		val queueLengths = stateAfterAction.taskQueueLengths[it]
+		queueLengths < config.userEquipmentStateConfig.taskQueueCapacity
+	}
+	if (notFullIndicesAfterAction.isEmpty()) {
+		if (stateAfterAction.isTUActive()) {
+			transitions.add(Transition(
+				source = state, 
+				dest = getNextStateAdvancingTU(stateAfterAction), 
+				transitionSymbols = listOf(listOf(action, ParameterSymbol.Beta))))
+			transitions.add(Transition(state, stateAfterAction, 
+				listOf(listOf(action, ParameterSymbol.BetaC))))
+		} else {
+			transitions.add(Transition(state, stateAfterAction, listOf(listOf(action))))
+		}
+	} else {
+		val taskArrivalMappings = getAllSubsets(notFullIndicesAfterAction.size)
+		for (mapping in taskArrivalMappings) {
+			val addTaskSymbols = mapping.mapIndexed { index, taskArrives ->
+				if (taskArrives)
+					ParameterSymbol.Alpha(notFullIndicesAfterAction[index])
+				else
+					ParameterSymbol.AlphaC(notFullIndicesAfterAction[index])
+			}
+			val destState = getNextStateAddingTasksBasedOnMapping(
+				stateAfterAction, mapping, notFullIndicesAfterAction
+			)
+			if (stateAfterAction.isTUActive()) {
+				transitions.add(Transition(
+					source = state,
+					dest = getNextStateAdvancingTU(destState),
+					transitionSymbols = listOf(
+						listOf(action, ParameterSymbol.Beta) + addTaskSymbols))
+					)
+				transitions.add(Transition(
+					source = state,
+					dest = destState,
+					transitionSymbols = listOf(
+						listOf(action, ParameterSymbol.BetaC) + addTaskSymbols))
+					)
+			} else {
+				transitions.add(Transition(state,destState, listOf(
+					listOf(action) + addTaskSymbols)))
+			}
+		}
+	}
+	return transitions
+}
+	\end{lstlisting}
+\end{latin}
+\newpage
+در نهایت با ترکیب دو تابعی که تعریف شد می‌توانیم تابع سومی بنویسیم که تمام یال‌های با مبدا $\tau$ را پیدا کند:
+\begin{latin}
+	\begin{lstlisting}[language=Kotlin, title=\rl{تابع محاسبه‌ی یال‌های زنجیره به ازای حالت مبدا ورودی}]
+fun getEdgesForState(state: UserEquipmentState): List<Edge> {
+	return getPossibleActions(state)
+	.map { action ->
+		getTransitionsForAction(state, action)
+	}
+	.flatten().map { it.toEdge() }
+}
+	\end{lstlisting}
+\end{latin}
+\clearpage

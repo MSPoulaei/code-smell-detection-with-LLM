@@ -1,0 +1,46 @@
+\documentclass[openany,bsc]{IUST-Thesis}
+\input{preamble}
+\begin{document}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tracinggroups=1
+\pagenumbering{harfi}
+
+\setlength{\parindent}{0cm}
+\input{pages/faTitle}
+\tableofcontents
+\newpage
+\listoffigures \newpage
+\listoftables \newpage
+\input{pages/acronyms}
+\pagestyle{fancy}
+
+\include{chapters/one-introduction}
+\include{chapters/two-literature-review}
+\include{chapters/three-problemstatement}
+\include{chapters/four-method}
+\include{chapters/five-implementation}
+\include{chapters/six-results}
+\include{chapters/seven-conclusion}
+\include{pages/dicfa2en}
+\include{appendix/appendix-1}
+\include{appendix/appendix-2}
+\include{appendix/appendix-3}
+
+\pagestyle{empty}
+{
+	\onehalfspacing
+	\bibliographystyle{IEEEtran}%{acm-fa}
+	\begin{latin}
+		\bibliography{references/references}
+	\end{latin}
+}
+\pagestyle{fancy}
+
+\onehalfspacing
+%\include{pages/appendix1}
+\printindex
+\input{pages/enTitle}
+\label{LastPage}
+\end{document}

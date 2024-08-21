@@ -1,0 +1,246 @@
+\usepackage{amsthm,amssymb,amsmath}
+\usepackage{titlesec}
+\usepackage{etoolbox}
+\usepackage{float}
+\usepackage[top=40mm, bottom=40mm, left=25mm, right=35mm]{geometry}
+\usepackage{graphicx}
+\usepackage{framed}
+\usepackage{lastpage}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{listings}
+\usepackage{fontspec}
+\usepackage{mdframed}
+\usepackage{tikz}
+\usepackage{dot2texi}
+\usepackage{environ}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{lscape}
+\usepackage{xparse}
+\usepackage{multicol}
+\usepackage{url}
+\setcounter{tocdepth}{1}
+\newcommand{\pderiv}[2]{\frac{\partial #1}{\partial #2}}
+\usetikzlibrary{shapes ,arrows ,positioning}
+\makeatletter
+\newsavebox{\measure@tikzpicture}
+\NewEnviron{scaletikzpicturetowidth}[1]{%
+	\def\tikz@width{#1}%
+	\def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+		\BODY
+	\end{lrbox}%
+	\pgfmathparse{#1/\wd\measure@tikzpicture}%
+	\edef\tikzscale{\pgfmathresult}%
+	\BODY
+}
+\makeatother
+
+\newmdtheoremenv{defi}{تعریف}[chapter]
+\newmdtheoremenv{thm}{قضیه}[chapter]
+
+\setmonofont{JetBrainsMono-Regular.ttf}[
+	Contextuals = Alternate,
+	Ligatures = TeX,
+	Path=fonts/
+]
+
+% \usepackage[pagebackref=false,colorlinks=false,linkcolor=black,citecolor=blue]{hyperref}
+\usepackage[pagebackref=false]{hyperref}
+\hypersetup{
+	colorlinks   = true, %Colours links instead of ugly boxes
+	urlcolor     = black, %Colour for external hyperlinks
+	linkcolor    = black, %Colour of internal links
+	citecolor   = black %Colour of citations
+}
+
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage{subfigure}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage[subfigure]{tocloft}
+\usepackage[nottoc]{tocbibind}
+\usepackage{bidi}
+\usepackage{makeidx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\algnewcommand\algorithmicforeach{\textbf{for each}}
+\algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
+\makeindex
+\renewcommand{\thealgorithm}{\arabic{chapter}.\arabic{algorithm}}
+
+\usepackage{cases}% http://ctan.org/pkg/cases
+\renewcommand{\theequation}{\thesection.\arabic{equation}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% فراخوانی بسته زی‌پرشین و تعریف قلم فارسی و انگلیسی
+\usepackage{xepersian}
+\setmainfont[Ligatures=TeX, Path=fonts/, Scale=1.2]{XB Niloofar.ttf}
+\settextfont[Scale=1.2, Path=fonts/, BoldFont=B Nazanin Bold.ttf]{B Nazanin.ttf}
+\setlatintextfont[Scale=0.8, Path=fonts/, BoldFont=timesbd.ttf, ItalicFont=timesi.ttf]{times.ttf}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% چنانچه می‌خواهید اعداد در فرمول‌ها، انگلیسی باشد، خط زیر را غیرفعال کنید
+
+\setdigitfont[Scale=0.8, Path=fonts/]{XB Zar.ttf}%{Persian Modern}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% تعریف قلم‌های فارسی و انگلیسی اضافی برای استفاده در بعضی از قسمت‌های متن
+\defpersianfont\titlefont[Scale=0.8, Path=fonts/]{XB Titre.ttf}
+% \defpersianfont\iranic[Scale=1.1]{XB Zar Oblique}%Italic}%
+% \defpersianfont\nastaliq[Scale=1.2]{IranNastaliq}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% دستوری برای حذف کلمه «چکیده»
+\renewcommand{\abstractname}{}
+% دستوری برای حذف کلمه «abstract»
+%\renewcommand{\latinabstract}{}
+% دستوری برای تغییر نام کلمه «اثبات» به «برهان»
+\renewcommand\proofname{\textbf{برهان}}
+% دستوری برای تغییر نام کلمه «کتاب‌نامه» به «مراجع»
+\renewcommand{\bibname}{\rl{مراجع}}
+% دستوری برای تعریف واژه‌نامه انگلیسی به فارسی
+\newcommand\persiangloss[2]{#1\dotfill\lr{#2}\\}
+% دستوری برای تعریف واژه‌نامه فارسی به انگلیسی 
+\newcommand\englishgloss[2]{#2\dotfill\lr{#1}\\}
+% تعریف دستور جدید «\پ» برای خلاصه‌نویسی جهت نوشتن عبارت «پروژه/پایان‌نامه/رساله»
+\newcommand{\پ}{پروژه/پایان‌نامه/رساله }
+\lstset{
+	basicstyle = \ttfamily \linespread{1.0} \scriptsize,
+	columns = flexible,
+}
+\lstdefinelanguage{Kotlin}{
+	frame=single,
+	tabsize=4,
+	comment=[l]{//},
+	commentstyle={\color{gray}\ttfamily},
+	emph={filter, first, firstOrNull, forEach, lazy, map, mapNotNull, println},
+	emphstyle={\color{OrangeRed}},
+	identifierstyle=\color{black},
+	keywords={!in, !is, abstract, actual, annotation, as, as?, break, by, catch, class, companion, const, constructor, continue, crossinline, data, delegate, do, dynamic, else, enum, expect, external, false, field, file, final, finally, for, fun, get, if, import, in, infix, init, inline, inner, interface, internal, is, lateinit, noinline, null, object, open, operator, out, override, package, param, private, property, protected, public, receiveris, reified, return, return@, sealed, set, setparam, super, suspend, tailrec, this, throw, true, try, typealias, typeof, val, var, vararg, when, where, while},
+	keywordstyle={\color{NavyBlue}\bfseries},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]",
+	morestring=[s]{"""*}{*"""},
+	ndkeywords={@Deprecated, @JvmField, @JvmName, @JvmOverloads, @JvmStatic, @JvmSynthetic, Array, Byte, Double, Float, Int, Integer, Iterable, Long, Runnable, Short, String, Any, Unit, Nothing},
+	ndkeywordstyle={\color{BurntOrange}\bfseries},
+	sensitive=true,
+	stringstyle={\color{ForestGreen}\ttfamily},
+}
+\makeatletter
+\renewcommand*\verbatim@nolig@list{}
+\makeatother
+%\newcommand\BackSlash{\char`\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\SepMark{-}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}{تعریف}[section]
+%\theoremstyle{theorem}
+\newtheorem{theorem}[definition]{قضیه}
+\newtheorem{lemma}[definition]{لم}
+\newtheorem{proposition}[definition]{گزاره}
+\newtheorem{corollary}[definition]{نتیجه}
+\newtheorem{remark}[definition]{ملاحظه}
+\theoremstyle{definition}
+\newtheorem{example}[definition]{مثال}
+
+\newcommand{\ImagePage}[1]{
+	\thispagestyle{empty}
+	\begin{tikzpicture}[remember picture,overlay]
+		\node at (current page.center) {\includegraphics[width=\pdfpagewidth,height=\pdfpageheight]{#1}};
+	\end{tikzpicture}
+	\newpage
+}
+%\renewcommand{\theequation}{\thechapter-\arabic{equation}}
+%\def\bibname{مراجع}
+\def\listfigurename{فهرست تصاویر}
+\def\listtablename{فهرست جداول}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% دستورهایی برای سفارشی کردن سربرگ صفحات
+% \newcommand{\SetHeader}{
+% \csname@twosidetrue\endcsname
+% \pagestyle{fancy}
+% \fancyhf{} 
+% \fancyhead[OL,EL]{\thepage}
+% \fancyhead[OR]{\small\rightmark}
+% \fancyhead[ER]{\small\leftmark}
+% \renewcommand{\chaptermark}[1]{%
+% \markboth{\thechapter-\ #1}{}}
+% }
+%%%%%%%%%%%%5
+%\def\MATtextbaseline{1.5}
+%\renewcommand{\baselinestretch}{\MATtextbaseline}
+\doublespacing
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% دستوراتی برای اضافه کردن کلمه «فصل» در فهرست مطالب
+
+\newlength\mylenprt
+\newlength\mylenchp
+\newlength\mylenapp
+
+\renewcommand\cftpartpresnum{\partname~}
+\renewcommand\cftchappresnum{\chaptername~}
+\renewcommand\cftchapaftersnum{:}
+
+\settowidth\mylenprt{\cftpartfont\cftpartpresnum\cftpartaftersnum}
+\settowidth\mylenchp{\cftchapfont\cftchappresnum\cftchapaftersnum}
+\settowidth\mylenapp{\cftchapfont\appendixname~\cftchapaftersnum}
+\addtolength\mylenprt{\cftpartnumwidth}
+\addtolength\mylenchp{\cftchapnumwidth}
+\addtolength\mylenapp{\cftchapnumwidth}
+
+\setlength\cftpartnumwidth{\mylenprt}
+\setlength\cftchapnumwidth{\mylenchp}
+
+\makeatletter
+{\def\thebibliography#1{\chapter*{\refname\@mkboth
+		  {\uppercase{\refname}}{\uppercase{\refname}}}\list
+		{[\arabic{enumi}]}{\settowidth\labelwidth{[#1]}
+			\rightmargin\labelwidth
+			\advance\rightmargin\labelsep
+			\advance\rightmargin\bibindent
+			\itemindent -\bibindent
+			\listparindent \itemindent
+			\parsep \z@
+			\usecounter{enumi}}
+		\def\newblock{}
+		\sloppy
+		\sfcode`\.=1000\relax}}
+\makeatother
+
+\usepackage{grfext}
+\graphicspath{{figures/}}
+\usepackage{caption}
+
+\renewcommand*\lstlistingname{\rl{قطعه کد}}
+\definecolor{light-gray}{gray}{0.89}
+
+\newcommand{\code}[1]{%
+	\begingroup\setlength{\fboxsep}{0pt}% no padding
+	\colorbox{light-gray}{\lstinline|#1|}%
+	\endgroup
+}
+\DefaultMathsDigits
+\titleformat{\chapter}[display]
+{\vspace{-3cm}\filleft}
+{{%
+			\vspace{-3cm}\vfill\filcenter\fontsize{20pt}{20pt}\selectfont{\chaptername}
+			\fontsize{20pt}{50pt}\selectfont\tt\newline\null\hfill\mtitle\hfill\null\vfill\clearpage%
+		}}%
+{26pt}{\fontsize{26pt}{26pt}\selectfont}[]
+\titlespacing*{\chapter}{0pt}{0pt}{20pt}
+\renewcommand\thechapter{\tartibi{chapter}}
+\let\tt\thechapter
+\renewcommand\thechapter{\arabic{chapter}}
+\newcommand*{\mchapter}[1]{\chapter[#1]{\thechapter.\,#1}}
+\patchcmd{\chapter}{plain}{empty}{}{}
+\newcommand*\mtitle{}
+\let\mchap=\chaptermark
+\renewcommand*\chaptermark[1]{%
+	\renewcommand*\mtitle{{\fontsize{30pt}{30pt}\selectfont#1}}%
+	\mchap{#1}}
+\newcommand{\Cite}[1]{\lr{\cite{#1}}}

@@ -1,0 +1,40 @@
+\chapter*{پیوست ۲ - تابع ساخت شرط حداکثر توان مصرفی در برنامه‌ی خطی}
+
+\begin{latin}
+	\begin{lstlisting}[language=Kotlin, title=\rl{تابع ساخت شرط حداکثر توان مصرفی}]
+fun getEquation2(): EquationRow {
+	val pLoc = systemConfig.pLoc
+	val pTx = systemConfig.pTx
+	val beta = systemConfig.beta
+	val rhsEquation2 = systemConfig.pMax
+	val coefficients = mutableListOfZeros(indexMapping.variableCount)
+	
+	indexMapping.coefficientIndexByStateAction.forEach { (stateAction, index) ->
+		val (state, action) = stateAction
+		var coefficientValue = 0.0
+		
+		if (state.isTUActive() 
+		|| (action is Action.AddToTransmissionUnit 
+		|| action is Action.AddToBothUnits)) {
+			coefficientValue += beta * pTx
+		}
+		
+		if (state.isCPUActive() 
+		|| (action is Action.AddToCPU) 
+		|| (action is Action.AddToBothUnits)) {
+			coefficientValue += pLoc
+		}
+		
+		coefficients[index] = coefficientValue
+		
+	}
+	
+	return EquationRow(
+		coefficients = coefficients,
+		rhs = rhsEquation2,
+		type = EquationRow.Type.LessThan
+	)
+}
+\end{lstlisting}
+\end{latin}
+\clearpage

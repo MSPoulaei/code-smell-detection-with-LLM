@@ -1,0 +1,92 @@
+\chapter*{پیوست ۱ - توابع انتقال حالت}
+
+\begin{latin}
+	\begin{lstlisting}[language=Kotlin, title=\rl{تابع انتقال حالت به ازای کنش ورودی}]
+fun getNextStateRunningAction(
+    sourceState: UserEquipmentState,
+    action: Action
+): UserEquipmentState {	
+	return when (action) {
+		is Action.NoOperation -> {
+			sourceState
+		}
+		is Action.AddToCPU -> {
+			getNextStateAddingToCPU(sourceState, action.queueIndex)
+		}
+		is Action.AddToTransmissionUnit -> {
+			getNextStateAddingToTU(sourceState, action.queueIndex)
+		}
+		is Action.AddToBothUnits -> {
+			getNextStateAddingToBothUnits(
+			    sourceState,
+			    action.cpuTaskQueueIndex,
+			    action.transmissionUnitTaskQueueIndex
+			)
+		}
+	}
+}
+\end{lstlisting}
+\end{latin}
+\begin{latin}
+	\begin{lstlisting}[language=Kotlin, title=\rl{تابع انتقال حالت پایه}]
+fun getNextStateAddingToCPU(
+    sourceState: UserEquipmentState, 
+    queueIndex: Int
+): UserEquipmentState {
+	require(sourceState.cpuState == 0)
+	require(sourceState.taskQueueLengths[queueIndex] > 0)
+	
+	val updatedLengths = sourceState.taskQueueLengths.decrementedAt(queueIndex)
+	
+	return sourceState.copy(
+	    taskQueueLengths = updatedLengths,
+	    cpuState = -1,
+	    cpuTaskTypeQueueIndex = queueIndex
+	)
+}
+	\end{lstlisting}
+\end{latin}
+
+\begin{latin}
+	\begin{lstlisting}[language=Kotlin, title=\rl{تابع انتقال حالت با کنش ارسال توسط واحد ارسال}]
+fun getNextStateAddingToTU(
+    sourceState: UserEquipmentState,
+    queueIndex: Int
+): UserEquipmentState {
+	require(sourceState.tuState == 0)
+	require(sourceState.taskQueueLengths[queueIndex] > 0)
+	
+	val updatedLengths = sourceState.taskQueueLengths.decrementedAt(queueIndex)
+
+	return sourceState.copy(
+	    taskQueueLengths = updateLengths,
+	    tuState = 1,
+	    tuTaskTypeQueueIndex = queueIndex
+	)
+}
+	\end{lstlisting}
+\end{latin}
+
+\begin{latin}
+	\begin{lstlisting}[language=Kotlin, title=\rl{تابع انتقال حالت با کنش اجرا و ارسال به طور همزمان}]
+fun getNextStateAddingToBothUnits(
+    sourceState: UserEquipmentState,
+    cpuQueueIndex: Int,
+    tuTaskQueueIndex: Int
+): UserEquipmentState {
+	if (cpuQueueIndex == tuTaskQueueIndex) {
+		require(sourceState.taskQueueLengths[cpuQueueIndex] > 1)
+	} else {
+		require(sourceState.taskQueueLengths[cpuQueueIndex] > 0)
+		require(sourceState.taskQueueLengths[tuTaskQueueIndex] > 0)
+	}
+	return getNextStateAddingToCPU(
+	    getNextStateAddingToTU(sourceState, tuTaskQueueIndex),
+	    cpuQueueIndex
+	)
+}
+	\end{lstlisting}
+\end{latin}
+
+
+\clearpage
