@@ -33,8 +33,10 @@
 \newcommand{\secondsupervisor}[1]{\def\@secondsupervisor{#1}}
 \newcommand{\firstadvisor}[1]{\def\@firstadvisor{#1}}
 \newcommand{\secondadvisor}[1]{\def\@secondadvisor{#1}}
-\def\name#1{\gdef\@name{#1}}
-\def\surname#1{\gdef\@surname{#1}}
+\def\name1#1{\gdef\@name1{#1}}
+\def\name2#1{\gdef\@name2{#1}}
+\def\surname1#1{\gdef\@surname1{#1}}
+\def\surname2#1{\gdef\@surname2{#1}}
 \def\keywords#1{\gdef\@keywords{#1}}
 \def\fa-abstract#1{\gdef\@fa-abstract{#1}}
 \def\faculty#1{\gdef\@faculty{#1}}
@@ -42,7 +44,8 @@
 \def\field#1{\gdef\@field{#1}}
 \def\department#1{\gdef\@department{#1}}
 \def\projectLabel#1{\gdef\@projectLabel{#1}}
-\def\studentID#1{\gdef\@studentID{#1}}
+\def\studentID1#1{\gdef\@studentID1{#1}}
+\def\studentID2#1{\gdef\@studentID2{#1}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\latintitle#1{\gdef\@latintitle{#1}}
 \def\latinauthor#1{\gdef\@latinauthor{#1}}
@@ -56,7 +59,7 @@
 \def\firstlatinadvisor#1{\gdef\@firstlatinadvisor{#1}}
 \def\secondlatinadvisor#1{\gdef\@secondlatinadvisor{#1}}
 \def\latinname#1{\gdef\@latinname{#1}}
-\def\latinsurname#1{\gdef\@latinsurname{#1}}
+\def\latinsurname2#1{\gdef\@latinsurname2{#1}}
 \def\en-abstract#1{\gdef\@en-abstract{#1}}
 \def\latinkeywords#1{\gdef\@latinkeywords{#1}}
 \def\latinuniversity#1{\gdef\@latinuniversity{#1}}
@@ -122,7 +125,7 @@
 \fi	
 \vskip 1cm
 \par
-{\Large\bfseries{\large\bfseries   \@name\ \ \@surname}}
+{\Large\bfseries{\large\bfseries   \@name\ \ \@surname2}}
 \par
 \vskip 15mm
 \large
@@ -195,7 +198,7 @@
 
 نام دانشكده: \@faculty
 
-نام دانشجو: \@name{} \@surname
+نام دانشجویان: \@name{} \@surname
 
 عنوان \@projectLabel: \@title
 
@@ -219,20 +222,29 @@
 \end{center}
 \doublespacing 
 
-اینجانب 
-\@name \ \@surname \ 
+اینجانبان 
+\@name1 \ \@surname1 \ 
 به شماره دانشجویی 
-\@studentID {}
+\@studentID1 {}
 دانشجوی رشته 
 \@subject {}
 مقطع تحصیلی 
 \@degree {}
-تأیید می‌نمایم كه كلیه‌ی نتایج این \@projectLabel{} حاصل كار اینجانب و بدون هرگونه دخل و تصرف است و موارد نسخه‌برداری‌شده از آثار دیگران را با ذكر كامل مشخصات منبع ذكر كرده‌ام. درصورت اثبات خلاف مندرجات فوق، به تشخیص دانشگاه مطابق با ضوابط و مقررات حاكم (قانون حمایت از حقوق مؤلفان و مصنفان و قانون ترجمه و تكثیر كتب و نشریات و آثار صوتی، ضوابط و مقررات آموزشی، پژوهشی و انضباطی) با اینجانب رفتار خواهد شد و حق هرگونه اعتراض درخصوص احقاق حقوق مكتسب و تشخیص و تعیین تخلف و مجازات را از خویش سلب می‌نمایم. در ضمن، مسؤولیت هرگونه پاسخگویی به اشخاص اعم از حقیقی و حقوقی و مراجع ذی‌صلاح (اعم از اداری و قضایی) به عهده‌ی اینجانب خواهد بود و دانشگاه هیچ‌گونه مسؤولیتی در این خصوص نخواهد داشت.
+\@name2 \ \@surname2 \ 
+به شماره دانشجویی 
+\@studentID2 {}
+دانشجوی رشته 
+\@subject {}
+مقطع تحصیلی 
+\@degree {}
+تأیی د می‌نماییم كه كلیه‌ی نتایج این \@projectLabel{} حاصل كار اینجانب و بدون هرگونه دخل و تصرف است و موارد نسخه‌برداری‌شده از آثار دیگران را با ذكر كامل مشخصات منبع ذكر كرده‌ایم. درصورت اثبات خلاف مندرجات فوق، به تشخیص دانشگاه مطابق با ضوابط و مقررات حاكم (قانون حمایت از حقوق مؤلفان و مصنفان و قانون ترجمه و تكثیر كتب و نشریات و آثار صوتی، ضوابط و مقررات آموزشی، پژوهشی و انضباطی) با اینجانب رفتار خواهد شد و حق هرگونه اعتراض درخصوص احقاق حقوق مكتسب و تشخیص و تعیین تخلف و مجازات را از خویش سلب می‌نماییم. در ضمن، مسؤولیت هرگونه پاسخگویی به اشخاص اعم از حقیقی و حقوقی و مراجع ذی‌صلاح (اعم از اداری و قضایی) به عهده‌ی اینجانب خواهد بود و دانشگاه هیچ‌گونه مسؤولیتی در این خصوص نخواهد داشت.
 
 \vspace{.5cm}
 \begin{flushleft}
 \begin{tabular}{lr}
-نام و نام خانوادگی:   & 	\@name{} \@surname \\
+نام و نام خانوادگی:   & 	\@name1{} \@surname1 \\
+ تاریخ و امضا: & \\
+نام و نام خانوادگی:   & 	\@name2{} \@surname2 \\
  تاریخ و امضا: & \\
 \end{tabular}
 \end{flushleft}
