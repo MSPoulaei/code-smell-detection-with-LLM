@@ -45,7 +45,7 @@
 \def\department#1{\gdef\@department{#1}}
 \def\projectLabel#1{\gdef\@projectLabel{#1}}
 \def\studentIDF#1{\gdef\@studentIDF{#1}}
-\def\studentIDL#1{\gdef\@studentIDL{#1}}
+\def\studentIDS#1{\gdef\@studentIDS{#1}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\latintitle#1{\gdef\@latintitle{#1}}
 \def\latinauthor#1{\gdef\@latinauthor{#1}}
@@ -127,11 +127,11 @@
 			\fi
 			\vskip 1cm
 			\par
-			{\Large\bfseries{\large\bfseries   \@nameF\ \ \@surnameF}}
+			{\Large\bfseries{\large\bfseries   \@nameF \space \@surnameF}}
 			\par
 			\vskip 0.2cm
 			\par
-			{\Large\bfseries{\large\bfseries   \@nameS\ \ \@surnameS}}
+			{\Large\bfseries{\large\bfseries   \@nameS \space \@surnameS}}
 			\par
 			\vskip 15mm
 			\large
@@ -239,12 +239,12 @@
 		و
 		\@nameS \ \@surnameS \
 		به شماره دانشجویی
-		\@studentIDL {}
+		\@studentIDS {}
 		دانشجوی رشته
 		\@subject {}
 		مقطع تحصیلی
 		\@degree {}
-		تأیید می‌نماییم كه كلیه‌ی نتایج این \@projectLabel{} حاصل كار اینجانبان و بدون هرگونه دخل و تصرف است و موارد نسخه‌برداری‌شده از آثار دیگران را با ذكر كامل مشخصات منبع ذكر كرده‌ایم. درصورت اثبات خلاف مندرجات فوق، به تشخیص دانشگاه مطابق با ضوابط و مقررات حاكم (قانون حمایت از حقوق مؤلفان و مصنفان و قانون ترجمه و تكثیر كتب و نشریات و آثار صوتی، ضوابط و مقررات آموزشی، پژوهشی و انضباطی) با اینجانب رفتار خواهد شد و حق هرگونه اعتراض درخصوص احقاق حقوق مكتسب و تشخیص و تعیین تخلف و مجازات را از خویش سلب می‌نماییم. در ضمن، مسؤولیت هرگونه پاسخگویی به اشخاص اعم از حقیقی و حقوقی و مراجع ذی‌صلاح (اعم از اداری و قضایی) به عهده‌ی اینجانب خواهد بود و دانشگاه هیچ‌گونه مسؤولیتی در این خصوص نخواهد داشت.
+		تأیید می‌نماییم كه كلیه‌ی نتایج این \@projectLabel{} حاصل كار اینجانبان و بدون هرگونه دخل و تصرف است و موارد نسخه‌برداری‌شده از آثار دیگران را با ذكر كامل مشخصات منبع ذكر كرده‌ایم. درصورت اثبات خلاف مندرجات فوق، به تشخیص دانشگاه مطابق با ضوابط و مقررات حاكم (قانون حمایت از حقوق مؤلفان و مصنفان و قانون ترجمه و تكثیر كتب و نشریات و آثار صوتی، ضوابط و مقررات آموزشی، پژوهشی و انضباطی) با اینجانبان رفتار خواهد شد و حق هرگونه اعتراض درخصوص احقاق حقوق مكتسب و تشخیص و تعیین تخلف و مجازات را از خویش سلب می‌نماییم. در ضمن، مسؤولیت هرگونه پاسخگویی به اشخاص اعم از حقیقی و حقوقی و مراجع ذی‌صلاح (اعم از اداری و قضایی) به عهده‌ی اینجانبان خواهد بود و دانشگاه هیچ‌گونه مسؤولیتی در این خصوص نخواهد داشت.
 
 		\vspace{.5cm}
 		\begin{flushleft}
@@ -421,8 +421,10 @@
 		\vskip 15mm
 			{\bfseries\latinby}\par
 		{\large %\supervisorfont
-			\rm\@latinnameF \; \@latinsurnameF}\par
+			\rm\@latinnameF \space \@latinsurnameF}\par
 
+		{\large %\supervisorfont
+			\rm\@latinnameS \space \@latinsurnameS}\par
 		\vskip 15mm
 
 		\large
