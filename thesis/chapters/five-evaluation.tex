@@ -95,4 +95,31 @@
 مثبت غلط\LTRfootnote{True Negative}
 و منفی غلط\LTRfootnote{False Negative}
 را شمارش کرد و با استفاده از روابط \ref{eq:accuracy} تا \ref{eq:ma-f1} مدل را ارزیابی کرد.
+
+
+\section{نتایج ارزیابی}
+
+نتایج ارزیابی تشخیص بوی کد بر روی مدل های مختلف در جدول	\ref{tab:performance}
+قابل مشاهده است که این مدل ها به اندازه یک دوره بر روز 10000 داده و طول ورودی 3000 توکن آموزش دیده اند.
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{lcccc}
+		\toprule
+		\lr{Model} & \lr{Precision} & \lr{Recall} & \lr{Accuracy} & \lr{F1} \\
+		\midrule
+		\lr{LLaMA 3.1-8B}  &36.4555 & 64.7900 & 45.7842 & 30.2849\\
+		\lr{gemma 2-9B}    &35.0419 & 65.1500 & 43.2184 & 29.4671\\
+		\lr{LLaMA 3-8B}    &35.5450 & 61.9200 & 47.0219 & 28.5714\\
+		\lr{LLaMA 2-7B}    &34.0678 & 64.3900 & 42.1825 & 28.5714\\
+		\lr{mistral 7B}    &34.8742 & 60.4100 & 46.7166 & 27.8215\\
+		\lr{phi 3.5 mini 3.8B}  &35.0706 & 60.0100 & 45.8794 & 28.3837\\
+		\lr{smoLM 2B}      &35.1047 & 59.7000 & 43.2540 & 29.5393\\
+		\lr{GPT2-large}    &31.8349 & 61.0300 & 42.6829 & 25.3835\\
+		\bottomrule
+	\end{tabular}
+	\caption{نتایج ارزیابی مدل های مختلف}
+	\label{tab:performance}
+\end{table}
+
 \clearpage
