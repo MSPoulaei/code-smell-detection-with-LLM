@@ -109,6 +109,24 @@
 	basicstyle = \ttfamily \linespread{1.0} \scriptsize,
 	columns = flexible,
 }
+\lstdefinelanguage{Python}{
+	frame=single,
+	tabsize=4,
+	comment=[l]{\#},
+	commentstyle={\color{gray}\ttfamily},
+	emph={map, filter, reduce, lambda, print, input, open, range, len, int, str, float, list, dict, set, tuple},
+	emphstyle={\color{OrangeRed}},
+	identifierstyle=\color{black},
+	keywords={False, None, True, and, as, assert, async, await, break, class, continue, def, del, elif, else, except, finally, for, from, global, if, import, in, is, lambda, nonlocal, not, or, pass, raise, return, try, while, with, yield},
+	keywordstyle={\color{NavyBlue}\bfseries},
+	morecomment=[s]{"""}{"""},
+	morestring=[b]',
+	morestring=[b]",
+	ndkeywords={int, str, float, list, dict, set, tuple, bool, bytes, bytearray, memoryview, complex, frozenset},
+	ndkeywordstyle={\color{BurntOrange}\bfseries},
+	sensitive=true,
+	stringstyle={\color{ForestGreen}\ttfamily},
+}
 \lstdefinelanguage{Kotlin}{
 	frame=single,
 	tabsize=4,
