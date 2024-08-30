@@ -15,9 +15,8 @@
 
 This research proposes a model for detecting code smells using large language models. Code smells refer to concepts and features in programming code that may indicate deeper issues in software design and implementation. These issues can lead to reduced code quality and increased complexity in maintenance and development. The proposed method leverages large language models trained on labeled datasets, capable of detecting 28 different types of code smells. The model is developed using advanced deep learning techniques and architectures, such as Transformers. Evaluation results show that the proposed model significantly improves the accuracy of code smell detection and can serve as an effective tool for software developers. The research also addresses the challenges in training and optimizing large language models and provides solutions to enhance the model's performance.
 
-## Task
+## 📚 Overview
 
-<!-- This project is a multi-label classification problem in which the code smells of input code are detected using a Large Language Model -->
 This project addresses a multi-label classification problem where code smells in input code are detected using a Large Language Model (LLM).
 
 ## Dataset
@@ -81,7 +80,7 @@ There are 3 main source code files for this project:
 - Objective: Improve the model's performance by crafting effective prompts that guide the LLM to deliver accurate outputs
 - Approach: Experiment with different prompt formats and structures to determine which are most effective at eliciting correct responses from the model.
 
-## Evaluation Results
+## 📊 Evaluation Results
 
 The results of the code smell detection evaluation on various models are shown in Table 1. These models were trained for one epoch on 10,000 data points with a maximum input length of 3,000 tokens, using AdamW as the optimizer and binary cross-entropy as the loss function.
 
