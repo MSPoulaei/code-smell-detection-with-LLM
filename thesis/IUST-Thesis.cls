@@ -355,6 +355,7 @@
 		\begin{flushleft}
 			{%\nastaliq \scriptsize 
 				\@nameF\ \@surnameF \\
+				\@nameS\ \@surnameS \\
 				\@thesisdate}
 		\end{flushleft}}
 

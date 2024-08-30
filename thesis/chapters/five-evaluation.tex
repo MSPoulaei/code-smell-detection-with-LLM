@@ -17,66 +17,65 @@
 \subsection{دقت \protect\LTRfootnote{Accuracy}}
 
 دقت در دسته‌بندی چندبرچسبی به صورت زیر تعریف می‌شود:
-
+\cite{evaluationMetric}
 \begin{equation}
 	\text{دقت} = \frac{1}{N} \sum_{i=1}^{N} \frac{|Y_i \cap \hat{Y}_i|}{|Y_i \cup \hat{Y}_i|}
 	\label{eq:accuracy}
 \end{equation}
-
 \subsection{دقت نمونه \protect\LTRfootnote{Example-Based Precision}}
 
 دقت نمونه نشان می‌دهد که از میان برچسب‌های پیش‌بینی شده، چه نسبتی از آنها واقعاً صحیح بوده‌اند. این معیار برای ارزیابی دقت پیش‌بینی‌های مدل مفید است.
+\cite{evaluationMetric}
 
 \begin{equation}
 	\text{دقت نمونه} = \frac{1}{N} \sum_{i=1}^{N} \frac{|Y_i \cap \hat{Y}_i|}{|\hat{Y}_i|}
 	\label{eq:precision}
 \end{equation}
-
 \subsection{بازخوانی نمونه \protect\LTRfootnote{Example-Based Recall}}
 
 بازخوانی نمونه نشان می‌دهد که از میان برچسب‌های واقعی، چه نسبتی از آنها توسط مدل پیش‌بینی شده‌اند. این معیار برای ارزیابی توانایی مدل در شناسایی تمام برچسب‌های مرتبط مهم است.
+\cite{evaluationMetric}
 
 \begin{equation}
 	\text{بازخوانی نمونه} = \frac{1}{N} \sum_{i=1}^{N} \frac{|Y_i \cap \hat{Y}_i|}{|Y_i|}
 	\label{eq:recall}
 \end{equation}
-
 \subsection{امتیاز \lr{F1} نمونه \protect\LTRfootnote{Example-Based F1 Score}}
 
 امتیاز \lr{F1} نمونه میانگین هارمونیک دقت و بازخوانی نمونه است. این معیار تعادلی بین دقت و بازخوانی ایجاد می‌کند و برای ارزیابی کلی عملکرد مدل مفید است.
+\cite{evaluationMetric}
 
 \begin{equation}
 	\text{امتیاز \lr{F1} نمونه} = \frac{1}{N} \sum_{i=1}^{N} \frac{2 \times |Y_i \cap \hat{Y}_i|}{|Y_i| + |\hat{Y}_i|}
 	\label{eq:f1}
 \end{equation}
-
 \subsection{دقت خرد \protect\LTRfootnote{Micro-Averaged Precision}}
 
 دقت خرد، دقت کلی مدل را در تمام نمونه‌ها و برچسب‌ها محاسبه می‌کند. این معیار برای ارزیابی عملکرد کلی مدل در تمام کلاس‌ها مفید است.
+\cite{evaluationMetric}
 
 \begin{equation}
 	\text{دقت خرد} = \frac{\sum_{i=1}^{N} |Y_i \cap \hat{Y}_i|}{\sum_{i=1}^{N} |\hat{Y}_i|}
 	\label{eq:ma-precision}
 \end{equation}
-
 \subsection{بازخوانی خرد \protect\LTRfootnote{Micro-Averaged Recall}}
 
 بازخوانی خرد، بازخوانی کلی مدل را در تمام نمونه‌ها و برچسب‌ها محاسبه می‌کند. این معیار نشان می‌دهد که مدل تا چه حد توانسته است تمام برچسب‌های مرتبط را در کل مجموعه داده شناسایی کند.
+\cite{evaluationMetric}
 
 \begin{equation}
 	\text{بازخوانی خرد} = \frac{\sum_{i=1}^{N} |Y_i \cap \hat{Y}_i|}{\sum_{i=1}^{N} |Y_i|}
 	\label{eq:ma-recall}
 \end{equation}
-
 \subsection{امتیاز \lr{F1} خرد \protect\LTRfootnote{Micro-Averaged F1 Score}}
 
 امتیاز \lr{F1} خرد، میانگین هارمونیک دقت خرد و بازخوانی خرد است. این معیار یک ارزیابی متعادل از عملکرد کلی مدل در تمام کلاس‌ها ارائه می‌دهد و برای مقایسه مدل‌های مختلف مفید است.
+\cite{evaluationMetric}
 
 \begin{equation}
 	\text{امتیاز \lr{F1} خرد} = \frac{2 \times \text{دقت خرد} \times \text{بازخوانی خرد}}{\text{دقت خرد} + \text{بازخوانی خرد}}
 	\label{eq:ma-f1}
 \end{equation}
-
 این معیارها برای سنجش عملکرد مدل در دسته‌بندی چندبرچسبی و شناسایی نقاط قوت و ضعف آن موثر اند.
 
 \section{نحوه ارزیابی مدل}
@@ -94,8 +93,7 @@
 منفی صحیح\LTRfootnote{False Positive}،
 مثبت غلط\LTRfootnote{True Negative}
 و منفی غلط\LTRfootnote{False Negative}
-را شمارش کرد و با استفاده از روابط \ref{eq:accuracy} تا \ref{eq:ma-f1} مدل را ارزیابی کرد.
-
+را شمارش کرد و با استفاده از روابط \ref{eq:accuracy} تا \ref{eq:ma-f1} مدل را ارزیابی کرد.\cite{BOGATINOVSKI2022117215}
 
 \section{نتایج ارزیابی}
 
