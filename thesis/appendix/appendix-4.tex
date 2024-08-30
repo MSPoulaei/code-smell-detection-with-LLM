@@ -1,7 +1,7 @@
 \chapter*{پیوست ۴ - تشخیص بوی کد با استفاده از مهندسی پرامپت}
 \label{appendix:4}
 \begin{latin}
-    \begin{lstlisting}[language=Python, title=\rl{بارگزاری مدل زبانی برای کار تولید متن بصورت کوانتیزه}]
+	\begin{lstlisting}[language=Python, title=\rl{بارگزاری مدل زبانی برای کار تولید متن بصورت فشرده}]
 quantization_config = BitsAndBytesConfig(
     load_in_4bit=True,
     bnb_4bit_use_double_quant=True,
@@ -18,7 +18,7 @@ model = AutoModelForCausalLM.from_pretrained(
 \end{latin}
 
 \begin{latin}
-    \begin{lstlisting}[language=Python, title=\rl{تعریف پایپلاین تولید متن}]
+	\begin{lstlisting}[language=Python, title=\rl{تعریف پایپلاین تولید متن}]
 gen = pipeline('text-generation', model=model, tokenizer=tokenizer)
 generation_args = {
     "max_new_tokens": 100,
@@ -30,7 +30,7 @@ generation_args = {
 \end{latin}
 
 \begin{latin}
-    \begin{lstlisting}[language=Python, title=\rl{تعریف پرامپت سیستم}]
+	\begin{lstlisting}[language=Python, title=\rl{تعریف پرامپت سیستم}]
 system_prompt=f"""
 you are an agent should output the correct code smells for multi-classification problem.
     these are the classes we have:
@@ -39,7 +39,7 @@ you are an agent should output the correct code smells for multi-classification 
 \end{latin}
 
 \begin{latin}
-    \begin{lstlisting}[language=Python, title=\rl{تولید پراپمت کاربر بصورت \lr{one-shot}}]
+	\begin{lstlisting}[language=Python, title=\rl{تولید پراپمت کاربر بصورت \lr{one-shot}}]
 def generate_user_prompt(code,oneshot_code,oneshot_labels):
     user_prompt = f"""
     output an array with the correct classes as 1 comma separated for the code below:
@@ -60,7 +60,7 @@ def generate_user_prompt(code,oneshot_code,oneshot_labels):
 \end{latin}
 
 \begin{latin}
-    \begin{lstlisting}[language=Python, title=\rl{تولید پرامپت ها با استفاده از داده ها}]
+	\begin{lstlisting}[language=Python, title=\rl{تولید پرامپت ها با استفاده از داده ها}]
 prompts=[]
 for i,entry in tqdm(enumerate(dataset)):
     last_entry=dataset[i-1]
@@ -74,7 +74,7 @@ for i,entry in tqdm(enumerate(dataset)):
 \end{latin}
 
 \begin{latin}
-    \begin{lstlisting}[language=Python, title=\rl{ورودی دادن پرامپت ها به پایپلاین تولید متن}]
+	\begin{lstlisting}[language=Python, title=\rl{ورودی دادن پرامپت ها به پایپلاین تولید متن}]
 prompts_to_gen=[]
 count=0
 while count<10:
@@ -87,7 +87,7 @@ inference_results=gen(prompts_to_gen, **generation_args)
 \end{latin}
 
 \begin{latin}
-    \begin{lstlisting}[language=Python, title=\rl{تابع تجزیه متن خروجی مدل بصورت آرایه برچسب ها}]
+	\begin{lstlisting}[language=Python, title=\rl{تابع تجزیه متن خروجی مدل بصورت آرایه برچسب ها}]
 def parse_generated_text(generated_text):
     # Extract class names from the generated text
     lines = generated_text.split('\n')
@@ -99,7 +99,7 @@ def parse_generated_text(generated_text):
 \end{latin}
 
 \begin{latin}
-    \begin{lstlisting}[language=Python, title=\rl{تابع ارزیابی مدل}]
+	\begin{lstlisting}[language=Python, title=\rl{تابع ارزیابی مدل}]
 def compute_individual_metrics(preds, labels):
     # Accuracy
     preds = preds.cpu()
@@ -128,7 +128,7 @@ def compute_individual_metrics(preds, labels):
 \end{latin}
 
 \begin{latin}
-    \begin{lstlisting}[language=Python, title=\rl{تابع بدست آوردن ارزیابی مدل به ازای تمام نمونه ها}]
+	\begin{lstlisting}[language=Python, title=\rl{تابع بدست آوردن ارزیابی مدل به ازای تمام نمونه ها}]
 def compute_overall_metrics(inference_results, ground_truths):
     # Initialize accumulators for metrics
     total_accuracy = 0
@@ -173,7 +173,7 @@ def compute_overall_metrics(inference_results, ground_truths):
 
 
 \begin{latin}
-    \begin{lstlisting}[language=Python, title=\rl{ارزبابی خروجی های مدل}]
+	\begin{lstlisting}[language=Python, title=\rl{ارزبابی خروجی های مدل}]
 metrics = compute_overall_metrics(inference_results, dataset)
 print(metrics) 
 \end{lstlisting}

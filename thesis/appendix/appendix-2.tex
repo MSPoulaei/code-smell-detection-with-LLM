@@ -1,7 +1,7 @@
 \chapter*{پیوست ۲ - آموزش مدل با روش \lr{QLORA}}
 
 \begin{latin}
-    \begin{lstlisting}[language=Python, title=\rl{بارگذاری داده ها و ایجاد لیبل ها بصورت \lr{one hot}}]
+	\begin{lstlisting}[language=Python, title=\rl{بارگذاری داده ها و ایجاد لیبل ها بصورت \lr{one hot}}]
 df = pd.read_csv('prepared_dataset/dataset.csv', header=None,
  names=['file_path', 'codesmells'])
 df.rename(columns={'codesmells': 'labels'}, inplace=True)
@@ -21,7 +21,7 @@ def encode_labels(labels):
 \end{latin}
 
 \begin{latin}
-    \begin{lstlisting}[language=Python, title=\rl{جدا کردن داده های آزمون و آموزش و ساخت دیتاست}]
+	\begin{lstlisting}[language=Python, title=\rl{جدا کردن داده های آزمون و آموزش و ساخت دیتاست}]
 train_df, test_df = train_test_split(df, test_size=0.1, random_state=42, shuffle=True)
 class CodeDataset(Dataset):
     def __init__(self, dataframe,tokenizer):
@@ -51,7 +51,7 @@ test_dataset = CodeDataset(test_df,tokenizer)
 \end{latin}
 
 \begin{latin}
-    \begin{lstlisting}[language=Python, title=\rl{بارگذاری توکنایزر و مدل و کوانتیزه کردن مدل}]
+	\begin{lstlisting}[language=Python, title=\rl{بارگذاری توکنایزر و مدل و فشرده کردن مدل}]
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 quantization_config = BitsAndBytesConfig(
     load_in_4bit=True,
@@ -68,7 +68,7 @@ low_cpu_mem_usage=True)
 \end{latin}
 
 \begin{latin}
-    \begin{lstlisting}[language=Python, title=\rl{استفاده از حالت مصرف بهینه رم برای پارامتر ها با استفاده از \lr{PEFT}}]
+	\begin{lstlisting}[language=Python, title=\rl{استفاده از حالت مصرف بهینه رم برای پارامتر ها با استفاده از \lr{PEFT}}]
 model.train() # model in training mode (dropout modules are activated)
 
 # enable gradient check pointing
@@ -94,7 +94,7 @@ model.print_trainable_parameters()
 \end{latin}
 
 \begin{latin}
-    \begin{lstlisting}[language=Python, title=\rl{آموزش دادن مدل}]
+	\begin{lstlisting}[language=Python, title=\rl{آموزش دادن مدل}]
 training_args = TrainingArguments(
 	output_dir='./results',
 	evaluation_strategy="epoch",
