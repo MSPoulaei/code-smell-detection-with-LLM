@@ -1,90 +1,66 @@
-\chapter*{پیوست ۱ - توابع انتقال حالت}
+\chapter*{پیوست ۱ - آماده سازی داده ها}
 
 \begin{latin}
-	\begin{lstlisting}[language=Kotlin, title=\rl{تابع انتقال حالت به ازای کنش ورودی}]
-fun getNextStateRunningAction(
-    sourceState: UserEquipmentState,
-    action: Action
-): UserEquipmentState {	
-	return when (action) {
-		is Action.NoOperation -> {
-			sourceState
-		}
-		is Action.AddToCPU -> {
-			getNextStateAddingToCPU(sourceState, action.queueIndex)
-		}
-		is Action.AddToTransmissionUnit -> {
-			getNextStateAddingToTU(sourceState, action.queueIndex)
-		}
-		is Action.AddToBothUnits -> {
-			getNextStateAddingToBothUnits(
-			    sourceState,
-			    action.cpuTaskQueueIndex,
-			    action.transmissionUnitTaskQueueIndex
-			)
-		}
-	}
-}
+	\begin{lstlisting}[language=Python, title=\rl{ثابت ها}]
+CODE_OUTPUT_PATH="output_code"
+SOURCE_CODE_NAME="source<counter>.java"
+code_dir = "code"
+label_dir = "label"
+prefix = 'dataset'
+counter_code=0
 \end{lstlisting}
 \end{latin}
 \begin{latin}
-	\begin{lstlisting}[language=Kotlin, title=\rl{تابع انتقال حالت پایه}]
-fun getNextStateAddingToCPU(
-    sourceState: UserEquipmentState, 
-    queueIndex: Int
-): UserEquipmentState {
-	require(sourceState.cpuState == 0)
-	require(sourceState.taskQueueLengths[queueIndex] > 0)
-	
-	val updatedLengths = sourceState.taskQueueLengths.decrementedAt(queueIndex)
-	
-	return sourceState.copy(
-	    taskQueueLengths = updatedLengths,
-	    cpuState = -1,
-	    cpuTaskTypeQueueIndex = queueIndex
-	)
-}
-	\end{lstlisting}
+	\begin{lstlisting}[language=Python, title=\rl{تابع ترکیب کردن کد های پروژه جاوا}]
+def combine_and_save_source_code(folder_dir):
+	global counter_code
+	combined_contents = []
+	for dir, _, files in os.walk(folder_dir):
+		for file in files:
+			file_path = os.path.join(dir, file)
+			with open(file_path, 'r') as f:
+				content = f.read()
+				combined_contents.append(content)
+	counter_code+=1
+	source_code_name_with_counter = SOURCE_CODE_NAME.replace("<counter>",str(counter_code))
+	output_path = os.path.join(CODE_OUTPUT_PATH,source_code_name_with_counter)
+	with open(output_path, 'w') as f:
+		f.write("\n\n".join(combined_contents))
+	return source_code_name_with_counter
+\end{lstlisting}
 \end{latin}
 
 \begin{latin}
-	\begin{lstlisting}[language=Kotlin, title=\rl{تابع انتقال حالت با کنش ارسال توسط واحد ارسال}]
-fun getNextStateAddingToTU(
-    sourceState: UserEquipmentState,
-    queueIndex: Int
-): UserEquipmentState {
-	require(sourceState.tuState == 0)
-	require(sourceState.taskQueueLengths[queueIndex] > 0)
-	
-	val updatedLengths = sourceState.taskQueueLengths.decrementedAt(queueIndex)
-
-	return sourceState.copy(
-	    taskQueueLengths = updateLengths,
-	    tuState = 1,
-	    tuTaskTypeQueueIndex = queueIndex
-	)
-}
-	\end{lstlisting}
-\end{latin}
-
-\begin{latin}
-	\begin{lstlisting}[language=Kotlin, title=\rl{تابع انتقال حالت با کنش اجرا و ارسال به طور همزمان}]
-fun getNextStateAddingToBothUnits(
-    sourceState: UserEquipmentState,
-    cpuQueueIndex: Int,
-    tuTaskQueueIndex: Int
-): UserEquipmentState {
-	if (cpuQueueIndex == tuTaskQueueIndex) {
-		require(sourceState.taskQueueLengths[cpuQueueIndex] > 1)
-	} else {
-		require(sourceState.taskQueueLengths[cpuQueueIndex] > 0)
-		require(sourceState.taskQueueLengths[tuTaskQueueIndex] > 0)
-	}
-	return getNextStateAddingToCPU(
-	    getNextStateAddingToTU(sourceState, tuTaskQueueIndex),
-	    cpuQueueIndex
-	)
-}
+	\begin{lstlisting}[language=Python, title=\rl{گردهم آوردن لیبل ها به صورت یکجا برای آموزش}]
+dataset = []
+for dir, folders, files in os.walk(os.path.join(prefix,label_dir)):
+	name = dir.split("\\")[-1]
+	for file in files:
+		last_name = None
+		if file == 'designCodeSmells.csv' or file=='implementationCodeSmells.csv':
+			file_path = os.path.join(dir, file)
+			df = pd.read_csv(file_path)
+			i=0
+			while i < len(df):
+				row=df.iloc[i]
+				codesmells=[row[-1]]
+				last_name=row[-2]
+				for j in range(i+1,len(df)):
+				row2=df.iloc[j]
+				if row2[-2]!=last_name:
+					i=j-1
+					break
+				codesmells.append(row2[-1])
+				output_path = combine_and_save_source_code(
+					os.path.join(prefix,code_dir,str(row[0]),
+				str(row[0]),
+				str(row[1]),
+				str(row[2])))
+				dataset.append({'file_path':output_path,
+				 'codesmells':",".join(set(codesmells))})
+				i+=1
+dataset = pd.DataFrame(dataset)
+dataset.to_csv('dataset.csv', index=False)
 	\end{lstlisting}
 \end{latin}
 

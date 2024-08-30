@@ -1,0 +1,181 @@
+\chapter*{پیوست ۴ - تشخیص بوی کد با استفاده از مهندسی پرامپت}
+\label{appendix:4}
+\begin{latin}
+    \begin{lstlisting}[language=Python, title=\rl{بارگزاری مدل زبانی برای کار تولید متن بصورت کوانتیزه}]
+quantization_config = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_use_double_quant=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype=torch.bfloat16,
+)
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+model = AutoModelForCausalLM.from_pretrained(
+        MODEL_NAME,
+        quantization_config=quantization_config,
+        device_map="auto",
+)
+\end{lstlisting}
+\end{latin}
+
+\begin{latin}
+    \begin{lstlisting}[language=Python, title=\rl{تعریف پایپلاین تولید متن}]
+gen = pipeline('text-generation', model=model, tokenizer=tokenizer)
+generation_args = {
+    "max_new_tokens": 100,
+    "return_full_text": False,
+    "temperature": 0.0,
+    "do_sample": False,
+}
+\end{lstlisting}
+\end{latin}
+
+\begin{latin}
+    \begin{lstlisting}[language=Python, title=\rl{تعریف پرامپت سیستم}]
+system_prompt=f"""
+you are an agent should output the correct code smells for multi-classification problem.
+    these are the classes we have:
+    {label_to_idx}"""
+\end{lstlisting}
+\end{latin}
+
+\begin{latin}
+    \begin{lstlisting}[language=Python, title=\rl{تولید پراپمت کاربر بصورت \lr{one-shot}}]
+def generate_user_prompt(code,oneshot_code,oneshot_labels):
+    user_prompt = f"""
+    output an array with the correct classes as 1 comma separated for the code below:
+    code1:
+    ```
+    {oneshot_code}
+    ```
+    labels1:
+    {oneshot_labels}
+    code2:
+    ```
+    {code}
+    ```
+    labels2:
+    """
+    return user_prompt
+\end{lstlisting}
+\end{latin}
+
+\begin{latin}
+    \begin{lstlisting}[language=Python, title=\rl{تولید پرامپت ها با استفاده از داده ها}]
+prompts=[]
+for i,entry in tqdm(enumerate(dataset)):
+    last_entry=dataset[i-1]
+    user_prompt=generate_user_prompt(entry['code'],last_entry['code'],dataset[i-1]["labels"])
+    messages=[
+    {"role": "system", "content": system_prompt},
+    {"role": "user", "content": user_prompt}
+    ]
+    prompts.append(messages)
+\end{lstlisting}
+\end{latin}
+
+\begin{latin}
+    \begin{lstlisting}[language=Python, title=\rl{ورودی دادن پرامپت ها به پایپلاین تولید متن}]
+prompts_to_gen=[]
+count=0
+while count<10:
+    for i in range(len(prompts)):
+    if len(prompts[i][0]["content"])+len(prompts[i][1]["content"])<2000:
+        prompts_to_gen.append(prompts[i])
+        count+=1
+inference_results=gen(prompts_to_gen, **generation_args)
+\end{lstlisting}
+\end{latin}
+
+\begin{latin}
+    \begin{lstlisting}[language=Python, title=\rl{تابع تجزیه متن خروجی مدل بصورت آرایه برچسب ها}]
+def parse_generated_text(generated_text):
+    # Extract class names from the generated text
+    lines = generated_text.split('\n')
+    class_names = [line.split('. ')[1].strip("'") for line in lines if '. ' in line]
+    # Convert class names to indices
+    class_indices = [label_to_idx[name] for name in class_names if name in label_to_idx]
+    return class_indices
+\end{lstlisting}
+\end{latin}
+
+\begin{latin}
+    \begin{lstlisting}[language=Python, title=\rl{تابع ارزیابی مدل}]
+def compute_individual_metrics(preds, labels):
+    # Accuracy
+    preds = preds.cpu()
+    labels = labels.cpu()
+    accuracy = (preds == labels).float().mean().item()
+
+    # Precision, Recall, F1 Score
+    true_positive = (preds * labels).sum().float()
+    predicted_positive = preds.sum().float()
+    actual_positive = labels.sum().float()
+
+    # Adding a small epsilon to avoid division by zero
+    epsilon = 1e-7
+
+    precision = (true_positive / (predicted_positive + epsilon)).item()
+    recall = (true_positive / (actual_positive + epsilon)).item()
+    f1_score = (2 * precision * recall / (precision + recall + epsilon))
+
+    return {
+        "accuracy": accuracy,
+        "precision": precision,
+        "recall": recall,
+        "f1_score": f1_score
+    } 
+\end{lstlisting}
+\end{latin}
+
+\begin{latin}
+    \begin{lstlisting}[language=Python, title=\rl{تابع بدست آوردن ارزیابی مدل به ازای تمام نمونه ها}]
+def compute_overall_metrics(inference_results, ground_truths):
+    # Initialize accumulators for metrics
+    total_accuracy = 0
+    total_precision = 0
+    total_recall = 0
+    total_f1_score = 0
+
+    for i, result in enumerate(inference_results):
+        # Parse the generated text to get predicted class indices
+        generated_text = result[0]['generated_text']
+        predicted_indices = parse_generated_text(generated_text)
+
+        # Create a binary tensor for predictions
+        preds = torch.zeros(len(label_to_idx), dtype=torch.int)
+        preds[predicted_indices] = 1
+
+        # Ground truth labels
+        labels = torch.tensor(ground_truths[i]["labels"], dtype=torch.int)
+
+        # Compute metrics for this instance
+        metrics = compute_individual_metrics(preds, labels)
+
+        # Accumulate metrics
+        total_accuracy += metrics["accuracy"]
+        total_precision += metrics["precision"]
+        total_recall += metrics["recall"]
+        total_f1_score += metrics["f1_score"]
+
+    # Average metrics over all instances
+    num_instances = len(inference_results)
+    overall_metrics = {
+        "accuracy": total_accuracy / num_instances,
+        "precision": total_precision / num_instances,
+        "recall": total_recall / num_instances,
+        "f1_score": total_f1_score / num_instances
+    }
+
+    return overall_metrics
+
+\end{lstlisting}
+\end{latin}
+
+
+\begin{latin}
+    \begin{lstlisting}[language=Python, title=\rl{ارزبابی خروجی های مدل}]
+metrics = compute_overall_metrics(inference_results, dataset)
+print(metrics) 
+\end{lstlisting}
+\end{latin}
+\clearpage
