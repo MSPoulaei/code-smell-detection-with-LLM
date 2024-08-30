@@ -11,6 +11,10 @@
 
 - Dr.Saeid Parsa
 
+## Abstract
+
+This research proposes a model for detecting code smells using large language models. Code smells refer to concepts and features in programming code that may indicate deeper issues in software design and implementation. These issues can lead to reduced code quality and increased complexity in maintenance and development. The proposed method leverages large language models trained on labeled datasets, capable of detecting 28 different types of code smells. The model is developed using advanced deep learning techniques and architectures, such as Transformers. Evaluation results show that the proposed model significantly improves the accuracy of code smell detection and can serve as an effective tool for software developers. The research also addresses the challenges in training and optimizing large language models and provides solutions to enhance the model's performance.
+
 ## Task
 
 <!-- This project is a multi-label classification problem in which the code smells of input code are detected using a Large Language Model -->
@@ -76,6 +80,21 @@ There are 3 main source code files for this project:
 
 - Objective: Improve the model's performance by crafting effective prompts that guide the LLM to deliver accurate outputs
 - Approach: Experiment with different prompt formats and structures to determine which are most effective at eliciting correct responses from the model.
+
+## Evaluation Results
+
+The results of the code smell detection evaluation on various models are shown in Table 1. These models were trained for one epoch on 10,000 data points with a maximum input length of 3,000 tokens, using AdamW as the optimizer and binary cross-entropy as the loss function.
+
+| Model             | Precision | Recall  | Accuracy | F1      |
+|-------------------|-----------|---------|----------|---------|
+| LLaMA 3.1-8B      | 36.4555   | 64.7900 | 75.7842  | 30.2849 |
+| gemma 2-9B        | 35.0419   | 65.1500 | 73.2184  | 29.4671 |
+| LLaMA 3-8B        | 35.5450   | 61.9200 | 77.0219  | 28.5714 |
+| LLaMA 2-7B        | 34.0678   | 64.3900 | 72.1825  | 28.5714 |
+| mistral 7B        | 34.8742   | 60.4100 | 76.7166  | 27.8215 |
+| phi 3.5 mini 3.8B | 35.0706   | 60.0100 | 75.8794  | 28.3837 |
+| smoLM 2B          | 35.1047   | 59.7000 | 73.2540  | 29.5393 |
+| GPT2-large        | 31.8349   | 61.0300 | 72.6829  | 25.3835 |
 
 ## Thesis
 
