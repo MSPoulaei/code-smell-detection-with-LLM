@@ -80,6 +80,32 @@ There are 3 main source code files for this project:
 - Objective: Improve the model's performance by crafting effective prompts that guide the LLM to deliver accurate outputs
 - Approach: Experiment with different prompt formats and structures to determine which are most effective at eliciting correct responses from the model.
 
+## 🛠️ Setup Instructions
+
+To run this project, follow these steps:
+
+1. Clone the Repository
+```sh
+git clone https://github.com/MSPoulaei/code-smell-detection-with-LLM.git
+cd code-smell-detection-with-LLM/code/TrainTest_QLora_py
+```
+1. Install pipenv (if not already installed)
+```sh
+pip install pipenv
+```
+1. Activate the Virtual Environment
+```sh
+pipenv shell
+```
+1. Install the Required Dependencies
+```sh
+pipenv install -r requirements.txt
+```
+1. Run the Script
+```sh
+python traintest_qlora.py
+```
+
 ## 📊 Evaluation Results
 
 The results of the code smell detection evaluation on various models are shown in Table 1. These models were trained for one epoch on 10,000 data points with a maximum input length of 3,000 tokens, using AdamW as the optimizer and binary cross-entropy as the loss function.
