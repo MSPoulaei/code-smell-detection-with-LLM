@@ -1,21 +1,27 @@
 \begin{table}[H]
-    \centering
-    \begin{latin}
-        \begin{tabular}{lcccc}
-            \toprule
-            \lr{Model}             & \lr{Precision} & \lr{Recall}  & \lr{Accuracy} & \lr{F1}      \\
-            \midrule
-            \lr{LLaMA 3.1-8B}      & \lr{36.46\%}   & \lr{64.79\%} & \lr{75.78\%}  & \lr{30.28\%} \\
-            \lr{gemma 2-9B}        & \lr{35.04\%}   & \lr{65.15\%} & \lr{73.21\%}  & \lr{29.46\%} \\
-            \lr{LLaMA 3-8B}        & \lr{35.54\%}   & \lr{61.92\%} & \lr{77.02\%}  & \lr{28.57\%} \\
-            \lr{LLaMA 2-7B}        & \lr{34.07\%}   & \lr{64.39\%} & \lr{72.18\%}  & \lr{28.57\%} \\
-            \lr{mistral 7B}        & \lr{34.87\%}   & \lr{60.41\%} & \lr{76.71\%}  & \lr{27.82\%} \\
-            \lr{phi 3.5 mini 3.8B} & \lr{35.07\%}   & \lr{60.01\%} & \lr{75.87\%}  & \lr{28.38\%} \\
-            \lr{smoLM 2B}          & \lr{35.10\%}   & \lr{59.70\%} & \lr{73.25\%}  & \lr{29.54\%} \\
-            \lr{GPT2-large}        & \lr{31.83\%}   & \lr{61.03\%} & \lr{72.68\%}  & \lr{25.38\%} \\
-            \bottomrule
-        \end{tabular}
-    \end{latin}
-    \caption{نتایج ارزیابی مدل های مختلف}
-    \label{tab:performance}
+	\centering
+	\begin{latin}
+		\begin{tabular}{lcccc}
+			\toprule
+			\lr{Model}             & \lr{Precision} & \lr{Recall}  & \lr{Accuracy} & \lr{F1}      \\
+			\midrule
+			\lr{LLaMA 3.1-8B}      & \lr{88.78\%} & \lr{61.39\%} & \lr{85.95\%} & \lr{72.59\%}\\
+			\lr{gemma 2-9B}        & \lr{89.03\%} & \lr{56.67\%} & \lr{84.15\%} & \lr{69.25\%}\\
+				\lr{LLaMA 3-8B}        & \lr{83.57\%} & \lr{52.08\%} & \lr{83.25\%} & \lr{64.17\%}\\
+			\lr{LLaMA 2-7B}        & \lr{84.43\%} & \lr{50.74\%} & \lr{82.15\%} & \lr{63.38\%}\\
+			\lr{mistral 7B}        & \lr{86.08\%} & \lr{50.00\%} & \lr{82.22\%} & \lr{63.26\%}\\
+			\lr{phi 3.5 mini 3.8B} & \lr{89.01\%} & \lr{49.34\%} & \lr{80.67\%} & \lr{63.49\%}\\
+			\lr{smoLM 2B}          & \lr{85.85\%} & \lr{47.62\%} & \lr{82.93\%} & \lr{61.26\%}\\
+			\lr{GPT2-large}        & \lr{82.17\%} & \lr{47.51\%} & \lr{82.95\%} & \lr{60.21\%}\\
+			\midrule
+			\lr{Random-Forest}        & \lr{90\%}   & \lr{30\%} & \lr{39\%}  & \lr{45\%} \\
+			\lr{ASTNN}        & \lr{76\%}   & \lr{52\%} & \lr{45\%}  & \lr{62\%} \\
+			\lr{HMML− GCN}        & \lr{86\%}   & \lr{65\%} & \lr{59\%}  & \lr{74\%} \\
+			\lr{HMML− LSTM}        & \lr{75\%}   & \lr{78\%} & \lr{67\%}  & \lr{75\%} \\
+			\lr{HMML− Control and data flow edges}        & \lr{71\%}   & \lr{72\%} & \lr{68\%}  & \lr{71\%} \\
+			\bottomrule
+		\end{tabular}
+	\end{latin}
+	\caption{نتایج ارزیابی مدل های مختلف}
+	\label{tab:performance}
 \end{table}
