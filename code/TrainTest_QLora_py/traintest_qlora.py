@@ -51,6 +51,7 @@ def encode_labels(labels):
 
 df['encoded_labels'] = df['labels'].apply(encode_labels)
 
+df=df.iloc[1:]
 df=df.sample(frac=1, random_state=42)
 
 train_df, test_df = train_test_split(df, test_size=0.1, random_state=42, shuffle=True)
@@ -140,12 +141,17 @@ data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
 training_args = TrainingArguments(
     output_dir='./results',
-    evaluation_strategy="epoch",
+    evaluation_strategy="steps",
+    eval_steps=50,
     learning_rate=2e-5,
-    warmup_steps=500,
+    save_strategy="steps",
+    save_steps=20,
+    save_total_limit = 2,
+    warmup_steps=200,
     per_device_train_batch_size=BATCH_SIZE,
     per_device_eval_batch_size=BATCH_SIZE,
     num_train_epochs=NUM_EPOCHS,
+    max_steps=800,
     weight_decay=0.01,
     gradient_accumulation_steps=4,
     # warmup_steps=2,
@@ -215,7 +221,7 @@ os.system("yes | huggingface-cli repo create Code_Smell_Detection_SmolLM")
 os.system("git lfs install")
 os.system('git clone https://huggingface.co/mspoulaei/Code_Smell_Detection_SmolLM')
 
-# %cd Code_Smell_Detection_SmolLM
+os.system('cd Code_Smell_Detection_SmolLM')
 os.system('git config --global user.email "sadeghpoolaee@gmail.com"')
 os.system('git config --global user.name "mspoulaei"')
 
