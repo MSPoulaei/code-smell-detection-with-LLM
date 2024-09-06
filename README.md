@@ -85,23 +85,32 @@ There are 3 main source code files for this project:
 To run this project, follow these steps:
 
 1. Clone the Repository
+
 ```sh
 git clone https://github.com/MSPoulaei/code-smell-detection-with-LLM.git
 cd code-smell-detection-with-LLM/code/TrainTest_QLora_py
 ```
+
 1. Install pipenv (if not already installed)
+
 ```sh
 pip install pipenv
 ```
+
 1. Activate the Virtual Environment
+
 ```sh
 pipenv shell
 ```
+
 1. Install the Required Dependencies
+
 ```sh
 pipenv install -r requirements.txt
 ```
+
 1. Run the Script
+
 ```sh
 python traintest_qlora.py
 ```
@@ -112,14 +121,14 @@ The results of the code smell detection evaluation on various models are shown i
 
 | Model             | Precision | Recall  | Accuracy | F1      |
 |-------------------|-----------|---------|----------|---------|
-| LLaMA 3.1-8B      | 36.46%   | 64.79% | 75.78%  | 30.28% |
-| gemma 2-9B        | 35.04%   | 65.15% | 73.21%  | 29.46% |
-| LLaMA 3-8B        | 35.54%   | 61.92% | 77.02%  | 28.57% |
-| LLaMA 2-7B        | 34.06%   | 64.39% | 72.18%  | 28.57% |
-| mistral 7B        | 34.87%   | 60.41% | 76.71%  | 27.82% |
-| phi 3.5 mini 3.8B | 35.07%   | 60.01% | 75.87%  | 28.38% |
-| smoLM 2B          | 35.10%   | 59.70% | 73.25%  | 29.53% |
-| GPT2-large        | 31.83%   | 61.03% | 72.68%  | 25.38% |
+| LLaMA 3.1-8B      | 88.78%    | 61.39%  | 85.95%   | 72.59%  |
+| gemma 2-9B        | 89.03%    | 56.67%  | 84.15%   | 69.25%  |
+| LLaMA 3-8B        | 83.57%    | 52.08%  | 83.25%   | 64.17%  |
+| LLaMA 2-7B        | 84.43%    | 50.74%  | 82.15%   | 63.38%  |
+| mistral 7B        | 86.08%    | 50.00%  | 82.22%   | 63.26%  |
+| phi 3.5 mini 3.8B | 89.01%    | 49.34%  | 80.67%   | 63.49%  |
+| smoLM 2B          | 85.85%    | 47.62%  | 82.93%   | 61.26%  |
+| GPT2-large        | 82.17%    | 47.51%  | 82.95%   | 60.21%  |
 
 ## Thesis
 
