@@ -22,6 +22,26 @@
 			\bottomrule
 		\end{tabular}
 	\end{latin}
-	\caption{نتایج ارزیابی مدل های مختلف}
+	\caption {نتایج ارزیابی مدل های مختلف با روش شبكه عصبي چندلايه}
 	\label{tab:performance}
+\end{table}
+
+
+
+
+\begin{table}[H]
+	\centering
+	\begin{latin}
+		\begin{tabular}{lcccc}
+			\toprule
+			\lr{Model} & \lr{Precision} & \lr{Recall}  & \lr{Accuracy} & \lr{F1}      \\
+			\midrule
+			\lr{LLaMA 3.1-8B}				& \lr{33.73\%} & \lr{49.56\%} & \lr{66.60\%} & \lr{40.14\%}\\
+			\lr{gemma 2-9B}				& \lr{30.70\%} & \lr{53.09\%} & \lr{67.65\%} & \lr{38.90\%}\\
+			\lr{LLaMA 3-8B}				& \lr{29.29\%} & \lr{56.86\%} & \lr{63.20\%} & \lr{38.67\%}\\
+			\bottomrule
+		\end{tabular}
+	\end{latin}
+	\caption{نتایج ارزیابی مدل های مختلف با روش مهندسی درخواست}
+	\label{tab:performance_Prompt_Engineering}
 \end{table}
