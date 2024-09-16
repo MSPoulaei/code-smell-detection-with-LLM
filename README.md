@@ -82,6 +82,10 @@ There are 3 main source code files for this project:
 
 ## 🛠️ Setup Instructions
 
+Requirements:
+    - Nvidia driver V535
+    - CUDA V12.2
+
 To run this project, follow these steps:
 
 1. Clone the Repository
@@ -110,7 +114,7 @@ pip install -r requirements.txt
 pip install --no-deps -r  requirements_nodeps.txt
 ```
 
-1. Run the Script for inference 
+1. Run the Script for inference
 
 ```sh
 python Inference.py
