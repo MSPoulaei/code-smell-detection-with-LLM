@@ -22,5 +22,5 @@ torch = {file = "https://download.pytorch.org/whl/cu121_full/torch-2.4.0+cu121-c
 [dev-packages]
 
 [requires]
-python_version = "3.12"
-python_full_version = "3.12.0"
+python_version = "3.10.12"
+python_full_version = "3.10.12"

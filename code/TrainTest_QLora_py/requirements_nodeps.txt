@@ -1,0 +1,4 @@
+triton==3.0.0
+xformers==0.0.28.post1
+trl==0.10.1
+peft==0.12.0

@@ -106,13 +106,14 @@ pipenv shell
 1. Install the Required Dependencies
 
 ```sh
-pipenv install -r requirements.txt
+pip install -r requirements.txt
+pip install --no-deps -r  requirements_nodeps.txt
 ```
 
-1. Run the Script
+1. Run the Script for inference 
 
 ```sh
-python traintest_qlora.py
+python Inference.py
 ```
 
 ## 📊 Evaluation Results
